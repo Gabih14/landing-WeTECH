@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wetech - Próximamente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: #FEDD00;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.1;
+        }
+
+        .particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { width: 8px; height: 8px; left: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { width: 5px; height: 5px; left: 40%; animation-delay: 0.5s; }
+        .particle:nth-child(5) { width: 7px; height: 7px; left: 60%; animation-delay: 1.5s; }
+        .particle:nth-child(6) { width: 4px; height: 4px; left: 70%; animation-delay: 3s; }
+        .particle:nth-child(7) { width: 6px; height: 6px; left: 80%; animation-delay: 2.5s; }
+        .particle:nth-child(8) { width: 5px; height: 5px; left: 90%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); }
+            50% { transform: translateY(-10vh) rotate(180deg); }
+        }
+
+        /* Header */
+        .header {
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FEDD00, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(254, 221, 0, 0.3);
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #FEDD00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: rgba(254, 221, 0, 0.1);
+            border: 2px solid #FEDD00;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            margin-bottom: 3rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(254, 221, 0, 0.3); }
+            to { box-shadow: 0 0 30px rgba(254, 221, 0, 0.6); }
+        }
+
+        .status-text {
+            color: #FEDD00;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Buttons */
+        .buttons-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #FEDD00, #ffed33);
+            color: #000;
+            box-shadow: 0 10px 30px rgba(254, 221, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(254, 221, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #FEDD00;
+            border: 2px solid #FEDD00;
+        }
+
+        .btn-secondary:hover {
+            background: #FEDD00;
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        /* Features grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin-bottom: 3rem;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(254, 221, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            border-color: rgba(254, 221, 0, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature h3 {
+            color: #FEDD00;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature p {
+            color: #cccccc;
+            line-height: 1.5;
+        }
+
+        /* Contact section */
+        .contact-section {
+            background: rgba(254, 221, 0, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(254, 221, 0, 0.2);
+        }
+
+        .contact-section h3 {
+            color: #FEDD00;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section p {
+            color: #cccccc;
+            margin-bottom: 1rem;
+        }
+
+        .email-link {
+            color: #FEDD00;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .email-link:hover {
+            color: #ffffff;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading animation */
+        .loading-dots {
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 2s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Animated background -->
+        <div class="bg-animation">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">WETECH</h1>
+        </header>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <h2 class="hero-title">Tu tienda de impresión 3D</h2>
+            <p class="hero-subtitle">
+                Filamentos de alta calidad, repuestos originales e impresoras 3D de última generación. 
+                Todo lo que necesitas para llevar tus proyectos al siguiente nivel.
+            </p>
+
+            <div class="status-badge">
+                <span class="status-text">🚀 Estamos en desarrollo<span class="loading-dots"></span></span>
+            </div>
+
+            <div class="buttons-container">
+                <a href="https://shop.wetech.ar" class="btn btn-primary" target="_blank">
+                    🛒 Ir a la Tienda
+                </a>
+                <a href="https://wa.me/5492615987988?text=%C2%A1Hola!%20Tengo%20una%20consulta" class="btn btn-secondary" target="_blank">
+                    📱 Contactanos
+                </a>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <span class="feature-icon">🧵</span>
+                    <h3>Filamentos Premium</h3>
+                    <p>PLA, ABS, PETG y materiales especiales de las mejores marcas</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🔧</span>
+                    <h3>Repuestos Originales</h3>
+                    <p>Piezas de recambio y componentes para todas las marcas</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🖨️</span>
+                    <h3>Impresoras 3D</h3>
+                    <p>Desde equipos para principiantes hasta máquinas profesionales</p>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <h3>¿Tienes sugerencias?</h3>
+                <p>Estamos trabajando duro para ofrecerte la mejor experiencia. Si tienes alguna consulta o sugerencia sobre la página, no dudes en contactarnos.</p>
+                <a href="mailto:hernandeg.alvarez@gmail.com" class="email-link">hernandeg.alvarez@gmail.com</a>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Wetech. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add smooth scrolling and interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.feature').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+
+            // Add click animation to buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+
+            // CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
